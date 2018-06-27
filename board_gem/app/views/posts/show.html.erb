@@ -1,0 +1,35 @@
+<h3>게시글 보기</h3>
+<hr>
+
+
+<div class="card mt-5">
+  <div class="card-body ">
+
+    <p></p>
+    <hr>
+    <p><%= @post.title %></p>
+    <hr>
+    <p><%= @post.content %></p>
+
+  </div>
+</div>
+<div class="card-body">
+    <% if @comments %>
+        <% @comments.each do |p|%>
+        <p><%= p.content%></p>
+      <hr/>
+      <%end%>
+    <%else%>
+      <p>아직 뎃글이 없습니다</p>
+    <%end%>
+</div>
+<div>
+  <form action="/posts/<%=@post.id%>/comments" method="post">
+    <div class="form-group">
+      <label for="exampleFormControlTextarea1">댓글</label>
+      <textarea name="content" class="form-control" rows="3"></textarea>
+    </div>
+    <input type="hidden" name = "authenticity_token" value = "<%=form_authenticity_token%>" />
+    <input type="submit">
+  </form>
+</div>

@@ -1,0 +1,15 @@
+
+<%= link_to '글 쓰기', new_post_path, class: "btn btn-warning"%>
+
+<% @posts.each do |post| %>
+  <p><%= post.id %></p>
+  <% unless post.user.nil? %>
+  <p><%= post.user.email%></p>
+  <% end %>
+  <p><%= post.title %></p>
+  <p><%= post.content %></p>
+  <%= link_to '글보기', post, class: "btn btn-primary"%>
+
+  <hr />
+<% end %>
+<%= paginate @posts %>

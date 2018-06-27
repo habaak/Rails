@@ -1,0 +1,39 @@
+<div class="container">
+  <h1 class="mt-5">아무거나 막 쓰는 쓰레기통</h1>
+  <div style="text-align: right;">
+    <span><a href="/posts/new" type="button"> <i class="fas fa-pencil-alt"></i>  글 쓰러 가기 </a></span>
+  </div>
+
+  <table class="table table-hover">
+    <thead>
+      <tr>
+        <th class="w-10">글 번호</th>
+        <th class="w-20">작성자</th>
+        <th class="w-30">제목</th>
+        <th class="w-30">작성일</th>
+        <th class="w-10">삭제</th>
+      </tr>
+    </thead>
+    <tbody>
+      <% @posts.each do |post|%>
+      <tr onclick="location.href='/posts/<%= post.id%>'">
+        <th scope="row">
+          <%= post.id%>
+        </th>
+        <td>
+          <%= post.username%>
+        </th>
+        <td>
+          <%= post.title%>
+        </td>
+        <td>
+          <%= post.created_at%>
+        </td>
+        <td>
+          <a href="/posts/<%=post.id%>" data-method="delete" data-confirm="정말 삭제하시겠습니까?"><i class="fas fa-trash"></i></a>
+        </td>
+      </tr>
+      <%end%>
+    </tbody>
+  </table>
+</div>

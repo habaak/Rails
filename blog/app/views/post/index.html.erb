@@ -1,0 +1,12 @@
+<h1>Post#index</h1>
+<a href="/post/new">글 쓰러 가기 </a>
+<hr />
+<% @posts.each do |post|%>
+    <p><%= post.id%></p>
+    <p><%= post.title%></p>
+    <p><%= post.body%></p>
+    <p><%= post.created_at%></p>
+    <a href="/post/<%= post.id%>">게시글 보기</a>
+    <a href="/post/<%= post.id%>/destroy">게시글 삭제</a>
+    <hr />
+<%end%>
