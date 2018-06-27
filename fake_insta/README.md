@@ -273,3 +273,57 @@ end
 ```bash
 $ rails g kaminari:views bootstrap4
 ```
+
+### [cancancan](https://github.com/CanCanCommunity/cancancan) - 권한설정
+1. Gemfile
+```ruby
+gem 'cancancan', '~> 2.0'
+```
+2. ability.rb
+```bash
+$ rails g cancan:ability
+```
+  - `app/models/ability.rb`생성
+```ruby
+# app/models/ability.rb
+class Ability
+  include CanCan::Ability
+
+  def initialize(user)
+    can :read, Post
+    return unless user.present?
+    can :manage, Post, user_id: user.id
+    can :create, Comment
+          :
+          :
+  end
+end
+```
+3. View에서 ability 확인
+```erb
+<% if can? :update, @post %>
+  <%= link_to '수정', edit_post_path %>
+<% end %>
+```
+4. controller ability 확인
+```ruby
+# app/controllers/posts_controller.rb
+load_and_authorize_resource
+# RESTful resources를 사용하는 경우에만 가능, 아닌 경우에는 독립적으로 Action별로 설정해줘야함.
+def show
+  authorize! :read, @post
+end
+```
+
+5. 권한 오류 발생시 메시지 설정
+
+```ruby
+# app/controllers/application_controller.rb
+  rescue_from CanCan::AccessDenied do |exception|
+  respond_to do |format|
+    format.json { head :forbidden, content_type: 'text/html' }
+    format.html { redirect_to main_app.root_url, notice: exception.message }
+    format.js   { head :forbidden, content_type: 'text/html' }
+  end
+end
+```
