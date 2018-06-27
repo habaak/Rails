@@ -191,3 +191,85 @@ $ rails generate simple_form:install --bootstrap
   <%= f.button :submit, class: "btn-primary" %>
 <% end %>
 ```
+
+### Model validation
+```ruby
+# model validate - 검증된 error를 controller로 보내주기 위해
+validates :title, presence: {message: "제목을 입력해주세요."}, length: { maximum: 30 , too_long: "제목은 %{count}자 이내로 입력해주세요."}
+validates :content, presence: {message: "내용을 입력해주세요."}
+```
+
+```ruby
+def create
+  @post = current_user.posts.new(post_params)
+  respond_to do |format|
+    if @post.save
+      format.html {redirect_to '/', notice: '글 작성이 완료되었습니다.'}
+      # html 형식으로 정형화해서 응답한다.
+      # notice는 flash notice에 값을 담기 위해서
+    else
+      format.html {render :new}
+      format.json {render json: @post.errors}
+    end
+  end
+end
+```
+```erb
+# app/views/posts/_form.html.erb
+<%= simple_form_for @post do |f| %>
+  <%= f.error_notification%>
+  <%= f.input :title %>
+  <%= f.input :content%>
+  <%= f.button :submit, class: "btn-primary" %>
+<% end %>
+```
+
+### custom helper
+특정 기능을 위한 메소드 관리
+```ruby
+# app/helper/application_helper
+def flash_message(type)
+   case type
+     when "alert" then "alert alert-warnig"
+     when "notice" then "alert alert-primary"
+   end
+end
+
+def gravatar(user)
+  if user
+    email = Digest::MD5.hexdigest(user.email)
+    url = "https://s.gravatar.com/avatar/#{email}?s=80&d=mp"
+    image_tag(url, alt: user.name, class: "rounded-circle")
+  end
+end
+```
+```erb
+/* app/views/layout/application.html.erb */
+<% flash.each do |key, value| %>
+  <div class="<%= flash_message(key)%>" role="alert">
+    <%= value %>
+  </div>
+<% end %>
+```
+
+#### [kaminari](https://github.com/kaminari/kaminari) - Pagination
+1. `Gemfile`
+  ```
+  gem 'kaminari'
+  ```
+  `$ bundle install`
+2. controller 설정
+```ruby
+#app/controllers/posts_controller.rb
+def index
+  Post.all.page(params[:page]).per(5)
+end
+```
+3. view 설정
+```erb
+<%= paginate @posts%>
+```
+4. theme 설정
+```bash
+$ rails g kaminari:views bootstrap4
+```

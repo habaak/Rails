@@ -45,7 +45,12 @@ class PostsController < ApplicationController
 
   def update
     @post.update(post_params)
-    redirect_to "/posts/#{@post.id}"
+    if @post.update(post_params)
+      format.html {redirect_to @post, notice: "글 수정완료"}
+    else
+      format.html {render:edit}
+      format.json {render json: @post.error}
+    end
   end
 
   def destroy
