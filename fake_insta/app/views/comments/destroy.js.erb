@@ -1,0 +1,4 @@
+var parnet = $('a[href="/comments/<%= params[:comment_id]%>"]').parent(); //p tag
+var hr = parnet.next();
+parnet.remove();
+hr.remove();
