@@ -6,7 +6,7 @@ class CommentsController < ApplicationController
     if @comment.save
       respond_to do |format|
         format.html {redirect_to :back}
-        format.js {}
+        format.js {render 'create_temp'}
       end
     else
       redirect_to :back
