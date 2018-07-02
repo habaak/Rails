@@ -61,6 +61,33 @@ class PostsController < ApplicationController
     end
   end
 
+  def map
+
+  end
+
+  def map_data
+    max = JSON.parse(params[:max]) #JSON_string을 => hash
+    min = JSON.parse(params[:min])
+    indices = JSON.parse(params[:indices]) # 로딩이 되어 있는 학교들의 id
+    # @school = School.all.limit(100)
+    school = School.where("(lat BETWEEN ? and ?) and (lng BETWEEN ? and ?)", min["_lat"], max["_lat"], min["_lng"], max["_lng"])
+
+    school_id = school.map{|x| x.id}
+    school_id -= indices # 기존 맵에 저장되어 있지않는 학교들의 id만 저장 (루비는 각각의 배열 값의 사칙연산을 지원함)
+
+    if school_id.length == 0
+      school = []
+    else
+      # school_id에 존재하는 학교들만 school에 저장
+      school = school.select {|x| school_id.include? x.id }
+    end
+
+    respond_to do |format|
+      format.json { render json: [school, school_id] }
+    end
+
+  end
+
   private
     # Use callbacks to share common setup or constraints between actions.
     def set_post
