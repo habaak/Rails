@@ -1,4 +1,18 @@
-$("div#comment").append(`<p>  <%= escape_javascript(@comment.content) %>
-  <%= escape_javascript( link_to '삭제하기', destroy_comment_path(@comment.id), method: :delete, remote: true, class: 'delete_comment') %>
-</p><hr />`);
-//backtick이나 escape_javascript는 자동으로 따음표들을 문자열 처리 시켜준다.
+
+
+
+
+
+
+
+
+
+
+
+
+
+$("div#comments").append("<p><%= escape_javascript(@comment.content) %><%= escape_javascript(link_to '삭제하기', destroy_comment_path(@comment.id), method: :delete, remote: true, class: 'delete_comment') %></p><hr/>");
+
+
+//escape_javascript() 또는 j()
+//
