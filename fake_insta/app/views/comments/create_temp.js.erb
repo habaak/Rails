@@ -1,18 +1,4 @@
-
-
-
-
-
-
-
-
-
-
-
-
-
-$("div#comments").append("<p><%= escape_javascript(@comment.content) %><%= escape_javascript(link_to '삭제하기', destroy_comment_path(@comment.id), method: :delete, remote: true, class: 'delete_comment') %></p><hr/>");
-
-
-//escape_javascript() 또는 j()
-//
+var a = "<p><%= j(@comment.content) %>"
+var b = "<%= j(link_to '댓글 삭제하기', destroy_comment_path(@comment.id), method: :delete, remote: true, class: 'delete_comment') %>"
+var c = "</p><hr />"
+$("div#comments").append(a+b+c);

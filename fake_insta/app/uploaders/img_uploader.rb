@@ -1,10 +1,10 @@
 class ImgUploader < CarrierWave::Uploader::Base
   # Include RMagick or MiniMagick support:
   # include CarrierWave::RMagick
-include CarrierWave::MiniMagick
+  include CarrierWave::MiniMagick
 
   # Choose what kind of storage to use for this uploader:
-  #storage :file
+  # storage :file
   storage :fog
 
   # Override the directory where uploaded files will be stored.
@@ -24,25 +24,25 @@ include CarrierWave::MiniMagick
   # Process files as they are uploaded:
   # process scale: [200, 300]
   #
-  #def scale(width, height)
-  #   do something
-  #end
+  # def scale(width, height)
+  #   # do something
+  # end
 
   # Create different versions of your uploaded files:
-   version :thumb_fit do
-     process resize_to_fit: [250, 250]   #만약 이미지가 1000*800이면 긴쪽 기준으로 비율을 맞춰 바꿈 => 250*200
-   end
+  version :thumb_fit do
+    process resize_to_fit: [250, 250]
+  end
+  # 1000*800 -> 250*200
 
-   version :thumb_fill do
-     process resize_to_fill: [50, 50]    #비율 조정없이 그냥 잘라냄 => 250*250
-   end
+  version :thumb_fill do
+    process resize_to_fill: [250, 250]
+  end
+  # 1000*800 -> 250*250
 
   # Add a white list of extensions which are allowed to be uploaded.
   # For images you might use something like this:
-
-  #이 형식의 이미지만 받도록
   def extension_whitelist
-     %w(jpg jpeg gif png)
+    %w(jpg jpeg gif png)
   end
 
   # Override the filename of the uploaded files:
