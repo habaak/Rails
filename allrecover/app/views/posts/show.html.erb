@@ -1,0 +1,32 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <strong>Title:</strong>
+  <%= @post.title %>
+</p>
+
+<p>
+  <strong>Content:</strong>
+  <%= @post.content %>
+</p>
+
+<p>
+  <strong>User:</strong>
+  <%= @post.user %>
+</p>
+<hr>
+<p><strong>댓글작성</strong></p>
+ <div class="well">
+  <form action="/posts/<%=@post.id%>/comments" method="post" data-remote=true>
+   <div class="form-group">
+    <input type="hidden" value="<%=current_user.id%>" name="user_id"></input>
+    <input type="hidden" value="<%=@post.id%>" name="post_id"></input>
+    <input type="hidden" name="authenticity_token" value="<%= form_authenticity_token %>">
+    <textarea class="form-control" rows="5" name="comment"></textarea>
+   </div>
+   <button type="submit" class="btn btn-default">댓글작성!</button>
+  </form>
+ </div>
+
+<%= link_to 'Edit', edit_post_path(@post) %> |
+<%= link_to 'Back', posts_path %>

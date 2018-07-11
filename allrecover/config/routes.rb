@@ -1,4 +1,10 @@
 Rails.application.routes.draw do
+  root 'posts#index'
+
+  resources :posts
+  devise_for :users
+
+  post '/posts/:post_id/comments' => "comments#create"
   # The priority is based upon order of creation: first created -> highest priority.
   # See how all your routes lay out with "rake routes".
 
