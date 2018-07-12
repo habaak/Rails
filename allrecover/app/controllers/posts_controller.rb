@@ -28,7 +28,8 @@ class PostsController < ApplicationController
 
     respond_to do |format|
       if @post.save
-        format.html { redirect_to @post, notice: 'Post was successfully created.' }
+        format.html {redirect_to '/', notice: "글 작성완료"}
+            #notice는 flash[:notice]에 값을 담기 위해서
         format.json { render :show, status: :created, location: @post }
       else
         format.html { render :new }
